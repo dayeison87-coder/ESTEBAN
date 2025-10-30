@@ -1,4 +1,4 @@
-## yeison david moreno nieto
+## kevin santiago larrota cuervo
 ## Parte 1: Análisis conceptual – Devart
 
 1️. ¿Qué problema principal busca resolver la normalización en una base de datos y por qué es crítica en sistemas empresariales?
