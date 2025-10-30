@@ -1,4 +1,4 @@
-## Yeison David Moreno Nieto
+## Yeison David Moreno Nieto . 
 ## Parte 1: Análisis conceptual – Devart
 
 1️. ¿Qué problema principal busca resolver la normalización en una base de datos y por qué es crítica en sistemas empresariales?
