@@ -1,75 +1,70 @@
 ## Yeison David Moreno Nieto . 
 ## Parte 1: Análisis conceptual – Devart
 
-1️. ¿Qué problema principal busca resolver la normalización en una base de datos y por qué es crítica en sistemas empresariales?
+1️. Problema que resuelve la normalización y su importancia en sistemas empresariales
 
-La normalización busca evitar la repetición de datos y los errores que se pueden generar cuando la misma información está en varios lugares.
-En una empresa esto es muy importante porque permite tener los datos organizados, confiables y fáciles de actualizar.
-Por ejemplo, si un cliente cambia de dirección, con una base normalizada solo hay que actualizarla una vez, y ese cambio se verá en todo el sistema.
+La normalización evita que los datos se repitan y previene errores causados por tener la misma información en varios lugares.
+En una empresa, esto es esencial porque permite tener la información bien organizada, confiable y fácil de actualizar.
+Por ejemplo, si un cliente cambia su dirección, en una base normalizada solo se modifica en un lugar, y el cambio se refleja en todo el sistema.
 
-2. Describe con tus propias palabras las diferencias entre 1NF, 2NF y 3NF según los ejemplos del artículo.
+2️. Diferencias entre 1NF, 2NF y 3NF
 
-Primera Forma Normal (1NF): los campos deben tener un solo valor. No se pueden guardar listas o varios datos en una misma celda.
-*Ejemplo: si en una columna dice “Mesa, Silla, Sofá”, eso no cumple la 1NF porque hay varios valores juntos.
+Primera Forma Normal (1NF):
+Cada campo debe tener un único valor, sin listas ni datos combinados.
+ * Ejemplo: una celda que diga “Mesa, Silla, Sofá” no cumple la 1NF porque contiene varios valores.
 
-Segunda Forma Normal (2NF): además de cumplir la 1NF, los datos que no son clave deben depender de toda la clave primaria, no solo de una parte.
-*Ejemplo: si la clave es (ID_Pedido, ID_Producto) y el nombre del producto solo depende del ID_Producto, hay una dependencia parcial y se debe separar.
+Segunda Forma Normal (2NF):
+Cumple la 1NF, pero además, los datos que no son clave deben depender completamente de la clave primaria.
+ * Ejemplo: si la clave es (ID_Pedido, ID_Producto) y el nombre del producto depende solo del ID_Producto, hay una dependencia parcial que debe eliminarse separando los datos.
 
-Tercera Forma Normal (3NF): además de cumplir la 2NF, ningún campo que no sea clave debe depender de otro campo que tampoco es clave.
-*Ejemplo: si la “Ciudad” depende del “Código Postal”, y este depende del cliente, hay una dependencia transitiva que se debe quitar creando otra tabla.
+Tercera Forma Normal (3NF):
+Cumple la 2NF y evita que un campo no clave dependa de otro campo no clave.
+ * Ejemplo: si “Ciudad” depende del “Código Postal” y este depende del cliente, hay una dependencia transitiva. La solución es crear otra tabla para esos datos.
 
-3️. En los ejemplos de Devart, identifica una situación donde la normalización mejora la integridad de datos, pero podría afectar el rendimiento. Explica el motivo.
+3️. Cuando la normalización mejora la integridad pero afecta el rendimiento
 
-Cuando se dividen las tablas grandes en varias más pequeñas, como “Clientes”, “Pedidos” y “Productos”, la información queda más organizada y confiable, pero el sistema puede volverse un poco más lento al hacer consultas.
-Esto pasa porque para obtener toda la información se deben usar JOINs entre varias tablas, y eso puede tardar más, especialmente si la base de datos tiene muchos registros.
+Al dividir una tabla grande en varias más pequeñas, como “Clientes”, “Pedidos” y “Productos”, se logra una base más ordenada y precisa.
+Sin embargo, las consultas pueden volverse más lentas, porque para obtener toda la información se deben unir varias tablas con JOINs, lo cual aumenta el tiempo de respuesta, especialmente en bases con muchos datos.
 
-4️. Qué papel juegan las dependencias funcionales en el proceso de normalización y cómo las identificarías en una tabla?
+4️. Rol de las dependencias funcionales y cómo identificarlas
 
-Las dependencias funcionales ayudan a identificar qué datos dependen de otros dentro de una tabla.
-Por ejemplo, si el ID_Cliente determina el nombre y el correo del cliente (ID_Cliente → Nombre, Correo), ahí hay una dependencia funcional.
-Para encontrarlas, uno puede fijarse si cada vez que se repite un valor en una columna, también se repiten los valores relacionados en otras columnas.
-Reconocerlas permite dividir correctamente las tablas y avanzar en las diferentes formas normales.
+Las dependencias funcionales muestran qué campos dependen de otros dentro de una tabla.
+Por ejemplo, si el ID_Cliente determina el nombre y el correo (ID_Cliente → Nombre, Correo), eso indica una dependencia funcional.
+Se pueden reconocer observando si, cuando se repite un valor en una columna, también se repiten los valores relacionados en las demás.
+Detectarlas es clave para dividir correctamente las tablas y aplicar cada forma normal.
 
-5️. Explica, con tus palabras, cuándo sería justificable “desnormalizar” una base de datos según el contexto de negocio.
+5️. Cuándo es recomendable desnormalizar una base de datos
 
-La desnormalización se puede usar cuando lo más importante es la velocidad de las consultas, y no tanto mantener todo perfectamente normalizado.
-Por ejemplo, en sistemas de reportes o análisis, o en páginas web donde se hacen muchas consultas pero pocos registros nuevos, es mejor tener algunos datos repetidos para que las búsquedas sean más rápidas.
-En esos casos, se acepta un poco de redundancia a cambio de mejor rendimiento.
+La desnormalización se usa cuando se prioriza la velocidad de consulta sobre la organización perfecta de los datos.
+Por ejemplo, en sistemas de reportes o análisis donde se hacen muchas consultas pero pocos registros nuevos, es útil tener algunos datos repetidos para acelerar las búsquedas.
+En esos casos, se acepta un poco de redundancia a cambio de un mejor rendimiento.
 
-## Parte 2: Caso Fred’s Furniture
+# Parte 2: Caso Fred’s Furniture
+Reto 1 – Diagnóstico inicial
 
--- Reto 1 – Diagnóstico inicial
+La tabla original furniture_sales tenía datos de ventas, productos, clientes y vendedores en una sola estructura.
+Esto causaba problemas de redundancia y dificultaba mantener la información consistente.
 
-Descripción del reto:
-La tabla original furniture_sales contenía información de ventas, productos, clientes y vendedores en una sola estructura. Este diseño presentaba múltiples problemas relacionados con la redundancia de datos y la dificultad para mantener la integridad de la información.
+Anomalías encontradas:
 
-Anomalías identificadas:
+Inserción: No era posible registrar un nuevo cliente o producto sin que existiera una venta, ya que todo estaba en la misma tabla.
 
-Anomalía de inserción:
-No se podía registrar un nuevo producto o cliente si aún no existía una venta asociada.
-Esto se debía a que la tabla combinaba información de ventas, productos y clientes, lo que impedía la inserción independiente de cada entidad.
+Actualización: Si cambiaba el teléfono de un vendedor, había que actualizarlo en muchas filas, lo que aumentaba errores.
 
-Anomalía de actualización:
-Si cambiaba el teléfono de un vendedor, era necesario actualizarlo en todas las filas donde aparecía.
-Esto ocurría porque la información del vendedor estaba repetida en cada registro de venta, lo que generaba redundancia y aumentaba el riesgo de inconsistencias.
+Eliminación: Al borrar una venta, también se perdía información del cliente o producto relacionado.
 
-Anomalía de eliminación:
-Si se eliminaba una venta, también se perdía información del producto o cliente que podría seguir siendo útil.
-La falta de separación entre las entidades provocaba la pérdida de datos valiosos al eliminar registros.
+Solución:
+Se decidió normalizar la base de datos hasta la Tercera Forma Normal (3NF) para eliminar redundancias y mejorar la integridad.
 
-Decisiones tomadas:
-Se decidió normalizar la base de datos hasta la Tercera Forma Normal (3FN) para resolver estas anomalías y mejorar la estructura de la base de datos.
+*Reto 2 – Aplicación de la Primera Forma Normal (1NF)
 
--- Reto 2 – Aplicación de la Primera Forma Normal (1FN)
+El propósito fue asegurarse de que cada campo contuviera un solo valor, sin datos repetidos o agrupados.
 
-Descripción del reto:
-El objetivo era garantizar que todos los campos fueran atómicos, es decir, que no contuvieran valores repetidos o multivaluados.
-
-Decisiones tomadas:
+Acciones tomadas:
 
 Se identificaron las entidades principales: Clientes, Productos, Vendedores, Ventas y Detalles de Venta.
 
-Cada entidad se representó en una tabla separada, eliminando la redundancia y asegurando la atomicidad de los datos.
+Se crearon tablas separadas para cada entidad, eliminando la redundancia y garantizando la atomicidad de los datos.
 
 Código SQL relevante:
 
