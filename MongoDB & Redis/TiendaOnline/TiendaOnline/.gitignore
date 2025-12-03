@@ -1,0 +1,47 @@
+# Dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Builds y artefactos
+dist/
+build/
+out/
+coverage/
+
+# Archivos de entorno
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+logs/*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs/editors
+.vscode/
+.idea/
+*.swp
+
+# Cache
+.cache/
+.eslintcache
+.next/
+.nuxt/
+.svelte-kit/
+
+# PM2 logs
+.pids
+*.pid
+*.seed
+*.pid.lock
+
+# TypeScript
+*.tsbuildinfo
