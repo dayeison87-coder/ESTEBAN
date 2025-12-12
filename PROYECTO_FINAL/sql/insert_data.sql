@@ -5,7 +5,7 @@
 
 -- Insertar departamentos
 INSERT INTO departamentos (codigo_departamento, nombre_departamento, decano, edificio) VALUES
-('CS', 'Ciencias de la Computación', 'Dr. Carlos Ruiz', 'Edificio C'),
+('CS', 'Ciencias de la Computación', 'Dr. kevin larrota', 'Edificio C'),
 ('MAT', 'Matemáticas', 'Dra. Ana López', 'Edificio A'),
 ('FIS', 'Física', 'Dr. Roberto García', 'Edificio B'),
 ('ING', 'Ingeniería', 'Dr. Miguel Ángel Torres', 'Edificio D'),
