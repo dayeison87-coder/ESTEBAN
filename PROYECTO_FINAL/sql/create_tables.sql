@@ -8,16 +8,16 @@ CREATE TABLE departamentos (
     id_departamento SERIAL PRIMARY KEY,
     codigo_departamento VARCHAR(10) UNIQUE NOT NULL,
     nombre_departamento VARCHAR(100) NOT NULL,
-    decano VARCHAR(100),
-    edificio VARCHAR(50),
+    decano VARCHAR(50),
+    edificio VARCHAR(100),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabla de profesores
 CREATE TABLE profesores (
     id_profesor SERIAL PRIMARY KEY,
-    codigo_profesor VARCHAR(20) UNIQUE NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
+    codigo_profesor VARCHAR(15) UNIQUE NOT NULL,
+    nombre VARCHAR(200) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     especialidad VARCHAR(100),
