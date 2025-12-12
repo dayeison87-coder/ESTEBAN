@@ -1,0 +1,43 @@
+﻿version: "3.8"
+services:
+  postgres:
+    image: postgres:15
+    container_name: universidad_postgres
+    environment:
+      POSTGRES_USER: admin_universidad
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: universidad_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_universidad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:6
+    container_name: universidad_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    command: mongod --quiet --logpath /dev/null
+
+  redis:
+    image: redis:7-alpine
+    container_name: universidad_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
