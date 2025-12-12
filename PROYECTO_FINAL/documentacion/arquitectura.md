@@ -49,6 +49,8 @@ El Sistema de Gestión Universitaria está diseñado siguiendo una arquitectura 
 - Foros y discusiones
 - Artículos académicos
 - Material complementario
+- historiales_cambios (auditoría): Cambios en notas, pagos, matrículas, etc.
+- notificaciones: Bandeja de avisos por usuario, estructura variable.
 
 **Características**:
 - Almacenamiento de documentos JSON flexibles
@@ -64,6 +66,8 @@ El Sistema de Gestión Universitaria está diseñado siguiendo una arquitectura 
 - Bloqueos de cursos (courseLocks.js)
 - Caché de consultas frecuentes
 - Contadores y estadísticas en tiempo real
+- Sesiones / tokens de login: Autenticación de estudiantes y profesores.
+- Cupos temporales de cursos (locks): Evitar que dos estudiantes tomen el último cupo al tiempo:
 
 **Características**:
 - Acceso extremadamente rápido
